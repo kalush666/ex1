@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findNameContaining(String name);
+    List<Product> findByProductNameContaining(String productName);
     List<Product> findByPriceLessThan(Double price);
 }
