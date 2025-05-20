@@ -1,22 +1,41 @@
 package org.example.ex1.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String userName;
     private String password;
 
-    public User() {
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public User(String userName, String password) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
         this.userName = userName;
-        this.password = password;
     }
 
     public String getPassword() {
@@ -27,11 +46,11 @@ public class User {
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
