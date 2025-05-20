@@ -3,6 +3,8 @@ package org.example.ex1.Controller;
 import org.example.ex1.Entity.Product;
 import org.example.ex1.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,22 +18,26 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public void createProduct(@RequestBody Product product) {
+    public ResponseEntity<String> createProduct(@RequestBody Product product) {
         productService.createProduct(product);
+        return new ResponseEntity<>("Product created successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/getProductById")
-    public Product getProductById(@RequestBody Long id) {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProductById(@RequestBody Long id) {
+        Product product = productService.getProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PutMapping("/updateProduct")
-    public void updateProduct(@RequestBody Long id, @RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@RequestBody Long id, @RequestBody Product product) {
         productService.updateProduct(id, product);
+        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteProduct")
-    public void deleteProduct(@RequestBody Long id) {
+    public ResponseEntity<String> deleteProduct(@RequestBody Long id) {
         productService.deleteProduct(id);
+        return new ResponseEntity<>("Product deleted successfully", HttpStatus.NO_CONTENT);
     }
 }
